@@ -1,28 +1,34 @@
-import { useState, useEffect, type FormEvent } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Label } from '../components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Alert, AlertDescription } from '../components/ui/alert';
-import { Loader2, ShieldCheck } from 'lucide-react';
-import { API_BASE_URL } from '../lib/api';
+import { useState, useEffect, type FormEvent } from "react";
+import { useAuth } from "../context/AuthContext";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
+import { Alert, AlertDescription } from "../components/ui/alert";
+import { Loader2, ShieldCheck } from "lucide-react";
+import { API_BASE_URL } from "../lib/api";
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { login, isAuthenticated, isLoading, checkAuth } = useAuth();
 
   useEffect(() => {
     // Parse OAuth parameters from URL
     const params = new URLSearchParams(window.location.search);
-    const redirectUri = params.get('redirect_uri');
+    const redirectUri = params.get("redirect_uri");
 
     // Store OAuth params in localStorage for after login
     if (redirectUri) {
-      localStorage.setItem('oauth_redirect', redirectUri);
+      localStorage.setItem("oauth_redirect", redirectUri);
     }
 
     // If already authenticated and has OAuth redirect, go there immediately
@@ -38,14 +44,18 @@ export default function Login() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setIsSubmitting(true);
 
     try {
       await login(email, password);
       // Login function will handle redirect to OAuth endpoint
     } catch (err: any) {
-      setError(err.response?.data?.message || err.message || 'Login failed. Please try again.');
+      setError(
+        err.response?.data?.message ||
+          err.message ||
+          "Login failed. Please try again."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -73,7 +83,9 @@ export default function Login() {
               <ShieldCheck className="h-6 w-6 text-primary" />
             </div>
           </div>
-          <CardTitle className="text-2xl text-center">Sign in to Cerberus IAM</CardTitle>
+          <CardTitle className="text-2xl text-center">
+            Sign in to Cerberus IAM
+          </CardTitle>
           <CardDescription className="text-center">
             Enter your credentials to continue
           </CardDescription>
@@ -121,7 +133,7 @@ export default function Login() {
                   Signing in...
                 </>
               ) : (
-                'Sign in'
+                "Sign in"
               )}
             </Button>
           </form>

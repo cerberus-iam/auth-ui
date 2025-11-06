@@ -1,5 +1,11 @@
-import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
-import { api, API_BASE_URL } from '../lib/api';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  type ReactNode,
+} from "react";
+import { api, API_BASE_URL } from "../lib/api";
 
 interface User {
   id: string;
@@ -23,7 +29,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const checkAuth = async () => {
     try {
-      const response = await api.get('/api/auth/me');
+      const response = await api.get("/v1/profile/me");
       if (response.data.authenticated) {
         setUser(response.data.user);
       } else {
@@ -37,21 +43,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const login = async (email: string, password: string) => {
-    const response = await api.post('/api/auth/login', { email, password });
+    const response = await api.post("/v1/auth/login", { email, password });
 
     if (response.data.success) {
       setUser(response.data.user);
 
       // Get the stored OAuth redirect from localStorage
-      const oauthRedirect = localStorage.getItem('oauth_redirect');
+      const oauthRedirect = localStorage.getItem("oauth_redirect");
 
       if (oauthRedirect) {
         // Redirect to OAuth authorize endpoint
         window.location.href = `${API_BASE_URL}${oauthRedirect}`;
-        localStorage.removeItem('oauth_redirect');
+        localStorage.removeItem("oauth_redirect");
       }
     } else {
-      throw new Error(response.data.message || 'Login failed');
+      throw new Error(response.data.message || "Login failed");
     }
   };
 
@@ -77,7 +83,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 }

@@ -1,6 +1,12 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Button } from '../components/ui/button';
-import { ShieldAlert } from 'lucide-react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { ShieldAlert } from "lucide-react";
 
 export default function Unauthorized() {
   return (
@@ -19,12 +25,13 @@ export default function Unauthorized() {
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground text-center mb-4">
-            If you believe this is an error, please contact your system administrator.
+            If you believe this is an error, please contact your system
+            administrator.
           </p>
           <Button
             variant="outline"
             className="w-full"
-            onClick={() => window.location.href = '/'}
+            onClick={() => (window.location.href = "/")}
           >
             Return to Home
           </Button>
