@@ -1,6 +1,11 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://api.cerberus-iam.com';
+const DEFAULT_API_BASE_URL = 'https://api.cerberus-iam.com';
+const trimTrailingSlash = (value: string): string =>
+  value.endsWith('/') ? value.replace(/\/+$/, '') : value;
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || DEFAULT_API_BASE_URL;
+const ISSUER_BASE_URL = trimTrailingSlash(import.meta.env.VITE_ISSUER_URL || API_BASE_URL);
 
 // Configure axios instance
 const api = axios.create({
@@ -30,4 +35,4 @@ api.interceptors.request.use(
   }
 );
 
-export { api, API_BASE_URL };
+export { api, API_BASE_URL, ISSUER_BASE_URL };

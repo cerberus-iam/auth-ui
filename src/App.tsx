@@ -10,6 +10,14 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route
+            path="/"
+            element={
+              <ProtectedRoute requireOAuthRedirect={true}>
+                <Login />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/login"
             element={
               <ProtectedRoute requireOAuthRedirect={true}>

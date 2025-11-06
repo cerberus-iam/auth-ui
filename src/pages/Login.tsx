@@ -1,4 +1,5 @@
 import { useState, useEffect, type FormEvent } from "react";
+import { isAxiosError } from "axios";
 import { useAuth } from "../context/AuthContext";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
@@ -12,7 +13,7 @@ import {
 } from "../components/ui/card";
 import { Alert, AlertDescription } from "../components/ui/alert";
 import { Loader2, ShieldCheck } from "lucide-react";
-import { API_BASE_URL } from "../lib/api";
+import { resolveAuthorizationRedirect } from "../lib/oauth";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -33,14 +34,14 @@ export default function Login() {
 
     // If already authenticated and has OAuth redirect, go there immediately
     if (isAuthenticated && redirectUri) {
-      window.location.href = `${API_BASE_URL}${redirectUri}`;
+      window.location.href = resolveAuthorizationRedirect(redirectUri);
     }
   }, [isAuthenticated]);
 
   // Check authentication status on mount
   useEffect(() => {
     checkAuth();
-  }, []);
+  }, [checkAuth]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -50,10 +51,10 @@ export default function Login() {
     try {
       await login(email, password);
       // Login function will handle redirect to OAuth endpoint
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(
-        err.response?.data?.message ||
-          err.message ||
+        (isAxiosError(err) && (err.response?.data?.message || err.message)) ||
+          (err instanceof Error && err.message) ||
           "Login failed. Please try again."
       );
     } finally {

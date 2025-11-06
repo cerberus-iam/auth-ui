@@ -3,9 +3,11 @@ import {
   useContext,
   useState,
   useEffect,
+  useCallback,
   type ReactNode,
 } from "react";
-import { api, API_BASE_URL } from "../lib/api";
+import { api } from "../lib/api";
+import { resolveAuthorizationRedirect } from "../lib/oauth";
 
 interface User {
   id: string;
@@ -27,43 +29,56 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const checkAuth = async () => {
+  const checkAuth = useCallback(async () => {
     try {
-      const response = await api.get("/v1/profile/me");
-      if (response.data.authenticated) {
-        setUser(response.data.user);
-      } else {
-        setUser(null);
-      }
-    } catch (error) {
+      const { data } = await api.get("/v1/me/profile");
+      setUser({
+        id: data.id,
+        email: data.email,
+        name:
+          data.name ||
+          [data.firstName, data.lastName].filter(Boolean).join(" ") ||
+          data.email,
+      });
+    } catch {
       setUser(null);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
-  const login = async (email: string, password: string) => {
-    const response = await api.post("/v1/auth/login", { email, password });
+  const login = useCallback(
+    async (email: string, password: string) => {
+      const { data } = await api.post("/v1/auth/login", { email, password });
 
-    if (response.data.success) {
-      setUser(response.data.user);
+      if (!data?.user) {
+        throw new Error(data?.message || "Login failed");
+      }
+
+      setUser({
+        id: data.user.id,
+        email: data.user.email,
+        name: data.user.name || data.user.email,
+      });
 
       // Get the stored OAuth redirect from localStorage
       const oauthRedirect = localStorage.getItem("oauth_redirect");
 
       if (oauthRedirect) {
-        // Redirect to OAuth authorize endpoint
-        window.location.href = `${API_BASE_URL}${oauthRedirect}`;
         localStorage.removeItem("oauth_redirect");
+        window.location.href = resolveAuthorizationRedirect(oauthRedirect);
+        return;
       }
-    } else {
-      throw new Error(response.data.message || "Login failed");
-    }
-  };
+
+      // If no OAuth redirect is present, refresh auth state
+      await checkAuth();
+    },
+    [checkAuth]
+  );
 
   useEffect(() => {
     checkAuth();
-  }, []);
+  }, [checkAuth]);
 
   return (
     <AuthContext.Provider
@@ -80,6 +95,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
