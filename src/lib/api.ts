@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios from 'axios';
 
-const DEFAULT_API_BASE_URL = "https://api.cerberus-iam.com";
+const DEFAULT_API_BASE_URL = 'https://api.cerberus-iam.com';
 const trimTrailingSlash = (value: string): string =>
-  value.endsWith("/") ? value.replace(/\/+$/, "") : value;
+  value.endsWith('/') ? value.replace(/\/+$/, '') : value;
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || DEFAULT_API_BASE_URL;
 const ISSUER_BASE_URL = trimTrailingSlash(
@@ -14,8 +14,8 @@ const api = axios.create({
   baseURL: API_BASE_URL,
   withCredentials: true, // Important: Send cookies with requests
   headers: {
-    "Content-Type": "application/json",
-    Accept: "application/json",
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
   },
 });
 
@@ -24,8 +24,8 @@ api.interceptors.request.use(
   async (config) => {
     // For state-changing requests, ensure we have a CSRF token
     if (
-      ["post", "put", "patch", "delete"].includes(
-        config.method?.toLowerCase() || ""
+      ['post', 'put', 'patch', 'delete'].includes(
+        config.method?.toLowerCase() || ''
       )
     ) {
       try {
@@ -33,7 +33,7 @@ api.interceptors.request.use(
           withCredentials: true,
         });
       } catch (error) {
-        console.error("Failed to fetch CSRF token:", error);
+        console.error('Failed to fetch CSRF token:', error);
       }
     }
     return config;

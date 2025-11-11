@@ -5,9 +5,9 @@ import {
   useEffect,
   useCallback,
   type ReactNode,
-} from "react";
-import { api } from "../lib/api";
-import { resolveAuthorizationRedirect } from "../lib/oauth";
+} from 'react';
+import { api } from '../lib/api';
+import { resolveAuthorizationRedirect } from '../lib/oauth';
 
 interface User {
   id: string;
@@ -31,13 +31,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const checkAuth = useCallback(async () => {
     try {
-      const { data } = await api.get("/v1/me/profile");
+      const { data } = await api.get('/v1/me/profile');
       setUser({
         id: data.id,
         email: data.email,
         name:
           data.name ||
-          [data.firstName, data.lastName].filter(Boolean).join(" ") ||
+          [data.firstName, data.lastName].filter(Boolean).join(' ') ||
           data.email,
       });
     } catch {
@@ -49,10 +49,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(
     async (email: string, password: string) => {
-      const { data } = await api.post("/v1/auth/login", { email, password });
+      const { data } = await api.post('/v1/auth/login', { email, password });
 
       if (!data?.user) {
-        throw new Error(data?.message || "Login failed");
+        throw new Error(data?.message || 'Login failed');
       }
 
       setUser({
@@ -62,10 +62,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
 
       // Get the stored OAuth redirect from localStorage
-      const oauthRedirect = localStorage.getItem("oauth_redirect");
+      const oauthRedirect = localStorage.getItem('oauth_redirect');
 
       if (oauthRedirect) {
-        localStorage.removeItem("oauth_redirect");
+        localStorage.removeItem('oauth_redirect');
         window.location.href = resolveAuthorizationRedirect(oauthRedirect);
         return;
       }
@@ -99,7 +99,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 }

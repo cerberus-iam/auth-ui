@@ -803,13 +803,13 @@ Edit `vite.config.ts` to customize build settings:
 ```typescript
 export default defineConfig({
   build: {
-    outDir: "dist",
+    outDir: 'dist',
     sourcemap: true, // Enable source maps
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ["react", "react-dom", "react-router-dom"],
-          ui: ["lucide-react", "axios"],
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          ui: ['lucide-react', 'axios'],
         },
       },
     },
@@ -1038,17 +1038,17 @@ Enable debug logging:
 ```typescript
 // src/lib/api.ts
 api.interceptors.request.use((config) => {
-  console.log("Request:", config.method?.toUpperCase(), config.url);
+  console.log('Request:', config.method?.toUpperCase(), config.url);
   return config;
 });
 
 api.interceptors.response.use(
   (response) => {
-    console.log("Response:", response.status, response.data);
+    console.log('Response:', response.status, response.data);
     return response;
   },
   (error) => {
-    console.error("Error:", error.response?.status, error.response?.data);
+    console.error('Error:', error.response?.status, error.response?.data);
     return Promise.reject(error);
   }
 );

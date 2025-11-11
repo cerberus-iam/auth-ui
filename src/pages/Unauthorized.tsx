@@ -4,9 +4,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../components/ui/card";
-import { Button } from "../components/ui/button";
-import { ShieldAlert } from "lucide-react";
+} from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { ShieldAlert } from 'lucide-react';
 
 export default function Unauthorized() {
   return (
@@ -31,7 +31,7 @@ export default function Unauthorized() {
           <Button
             variant="outline"
             className="w-full"
-            onClick={() => (window.location.href = "/")}
+            onClick={() => (window.location.href = '/')}
           >
             Return to Home
           </Button>
