@@ -66,7 +66,7 @@ export default function Login() {
   // Show loading state while checking auth
   if (isLoading) {
     return (
-      <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+      <div className="bg-muted flex min-h-svh w-full items-center justify-center p-6 md:p-10">
         <div className="w-full max-w-sm">
           <div className="flex items-center justify-center py-12">
             <Loader2 className="text-primary h-8 w-8 animate-spin" />
