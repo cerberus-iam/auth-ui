@@ -8,7 +8,7 @@ import { Alert, AlertDescription } from '../components/ui/alert';
 import { Loader2 } from 'lucide-react';
 import { resolveAuthorizationRedirect } from '../lib/oauth';
 import { AnimatedGradient } from '../components/AnimatedGradient';
-import logoSvg from '../assets/logo.svg';
+import { Logo } from '../components/Logo';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -68,12 +68,7 @@ export default function Login() {
             {/* Top-left branding */}
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center">
-                <img
-                  src={logoSvg}
-                  alt="Cerberus IAM"
-                  className="h-10 w-10"
-                  style={{ color: '#FCBE21' }}
-                />
+                <Logo className="h-10 w-10" color="#FCBE21" />
               </div>
               <div className="flex flex-col">
                 <span className="text-lg font-semibold text-white">
@@ -108,12 +103,7 @@ export default function Login() {
           {/* Top-left branding */}
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center">
-              <img
-                src={logoSvg}
-                alt="Cerberus IAM"
-                className="h-10 w-10"
-                style={{ color: '#FCBE21' }}
-              />
+              <Logo className="h-10 w-10" color="#FCBE21" />
             </div>
             <div className="flex flex-col">
               <span className="text-lg font-semibold text-white">
@@ -136,12 +126,7 @@ export default function Login() {
             className="flex items-center gap-2 self-center font-medium lg:hidden"
           >
             <div className="flex h-6 w-6 items-center justify-center">
-              <img
-                src={logoSvg}
-                alt="Cerberus IAM"
-                className="h-6 w-6"
-                style={{ color: '#FCBE21' }}
-              />
+              <Logo className="h-6 w-6" color="#FCBE21" />
             </div>
             Cerberus IAM
           </a>
