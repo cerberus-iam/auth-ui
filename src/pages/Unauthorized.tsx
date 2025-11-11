@@ -7,9 +7,45 @@ import {
 } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { ShieldAlert } from 'lucide-react';
+import { useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Logo } from '../components/Logo';
 
 export default function Unauthorized() {
+  const location = useLocation() as { state?: { from?: string } };
+
+  const returnUrl = useMemo(() => {
+    if (typeof window === 'undefined') {
+      return '/';
+    }
+
+    const stateUrl = location.state?.from;
+    if (stateUrl) {
+      return stateUrl;
+    }
+
+    try {
+      const stored = window.sessionStorage.getItem('unauthorizedReturnTo');
+      if (stored) {
+        window.sessionStorage.removeItem('unauthorizedReturnTo');
+        return stored;
+      }
+    } catch {
+      // sessionStorage access can fail; fall through to other strategies
+    }
+
+    const referrer = document.referrer;
+    if (referrer) {
+      try {
+        return new URL(referrer, window.location.href).origin;
+      } catch {
+        // Ignore malformed referrer URLs and continue
+      }
+    }
+
+    return window.location.origin ?? '/';
+  }, [location.state]);
+
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
@@ -46,7 +82,13 @@ export default function Unauthorized() {
             <Button
               variant="outline"
               className="w-full"
-              onClick={() => (window.location.href = '/')}
+              onClick={() => {
+                if (typeof window === 'undefined') {
+                  return;
+                }
+
+                window.location.href = returnUrl;
+              }}
             >
               Return to Home
             </Button>

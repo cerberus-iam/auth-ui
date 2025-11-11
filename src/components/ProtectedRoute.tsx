@@ -18,7 +18,43 @@ export default function ProtectedRoute({
 
   // If this route requires OAuth redirect and it's not present, show unauthorized
   if (requireOAuthRedirect && !hasRedirectUri) {
-    return <Navigate to="/unauthorized" replace />;
+    let returnUrl: string | undefined;
+
+    if (typeof window !== 'undefined') {
+      const candidates = [
+        document.referrer,
+        params.get('redirect_uri'),
+        window.location.href,
+      ];
+
+      for (const candidate of candidates) {
+        if (!candidate) continue;
+        try {
+          returnUrl = new URL(candidate, window.location.href).origin;
+          if (returnUrl) break;
+        } catch {
+          // Ignore malformed URLs and continue searching for a usable origin
+        }
+      }
+
+      if (!returnUrl) {
+        returnUrl = window.location.origin;
+      }
+
+      try {
+        window.sessionStorage.setItem('unauthorizedReturnTo', returnUrl);
+      } catch {
+        // Access to sessionStorage can fail (e.g., disabled storage); ignore gracefully
+      }
+    }
+
+    return (
+      <Navigate
+        to="/unauthorized"
+        state={returnUrl ? { from: returnUrl } : undefined}
+        replace
+      />
+    );
   }
 
   return <>{children}</>;
