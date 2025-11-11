@@ -79,8 +79,8 @@ export default function Login() {
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
-        <div className="mb-8 flex flex-col items-center gap-3">
-          <Logo className="h-12 w-12" color="#FCBE21" />
+        <div className="mb-8 flex flex-col items-center">
+          <Logo className="mb-2 size-12" color="#FCBE21" />
           <div className="flex flex-col items-center gap-1">
             <span className="text-xl font-semibold">Cerberus IAM</span>
             <span className="text-muted-foreground text-sm">
@@ -91,7 +91,7 @@ export default function Login() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl">Login</CardTitle>
+            <CardTitle>Login</CardTitle>
             <CardDescription>
               Enter your email below to login to your account
             </CardDescription>
