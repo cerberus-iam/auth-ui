@@ -5,9 +5,10 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Alert, AlertDescription } from '../components/ui/alert';
-import { Loader2, ShieldCheck } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { resolveAuthorizationRedirect } from '../lib/oauth';
 import { AnimatedGradient } from '../components/AnimatedGradient';
+import logoSvg from '../assets/logo.svg';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -66,8 +67,13 @@ export default function Login() {
           <div className="relative z-10 flex h-full flex-col p-8">
             {/* Top-left branding */}
             <div className="flex items-center gap-3">
-              <div className="bg-primary text-primary-foreground flex h-10 w-10 items-center justify-center rounded-lg shadow-lg">
-                <ShieldCheck className="h-5 w-5" />
+              <div className="flex h-10 w-10 items-center justify-center">
+                <img
+                  src={logoSvg}
+                  alt="Cerberus IAM"
+                  className="h-10 w-10"
+                  style={{ color: '#FCBE21' }}
+                />
               </div>
               <div className="flex flex-col">
                 <span className="text-lg font-semibold text-white">
@@ -101,8 +107,13 @@ export default function Login() {
         <div className="relative z-10 flex h-full flex-col p-8">
           {/* Top-left branding */}
           <div className="flex items-center gap-3">
-            <div className="bg-primary text-primary-foreground flex h-10 w-10 items-center justify-center rounded-lg shadow-lg">
-              <ShieldCheck className="h-5 w-5" />
+            <div className="flex h-10 w-10 items-center justify-center">
+              <img
+                src={logoSvg}
+                alt="Cerberus IAM"
+                className="h-10 w-10"
+                style={{ color: '#FCBE21' }}
+              />
             </div>
             <div className="flex flex-col">
               <span className="text-lg font-semibold text-white">
@@ -124,8 +135,13 @@ export default function Login() {
             href="#"
             className="flex items-center gap-2 self-center font-medium lg:hidden"
           >
-            <div className="bg-primary text-primary-foreground flex h-6 w-6 items-center justify-center rounded-md">
-              <ShieldCheck className="size-4" />
+            <div className="flex h-6 w-6 items-center justify-center">
+              <img
+                src={logoSvg}
+                alt="Cerberus IAM"
+                className="h-6 w-6"
+                style={{ color: '#FCBE21' }}
+              />
             </div>
             Cerberus IAM
           </a>
