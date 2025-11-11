@@ -175,6 +175,7 @@ npm install
 ```
 
 This will install all required packages including:
+
 - React and React DOM
 - React Router for routing
 - Axios for HTTP requests
@@ -224,16 +225,19 @@ VITE_API_URL=https://api.cerberus-iam.com
 ### Environment-Specific Configuration
 
 **Development (`.env.local`)**:
+
 ```env
 VITE_API_URL=http://localhost:8001
 ```
 
 **Staging (`.env.staging`)**:
+
 ```env
 VITE_API_URL=https://staging-api.cerberus-iam.com
 ```
 
 **Production (set in hosting platform)**:
+
 ```env
 VITE_API_URL=https://api.cerberus-iam.com
 ```
@@ -268,11 +272,13 @@ The application will be available at `http://localhost:5173`
 ### Code Quality Tools
 
 **Linting**:
+
 ```bash
 npm run lint
 ```
 
 **Type Checking**:
+
 ```bash
 npm run type-check
 ```
@@ -342,21 +348,25 @@ cerberus-auth-ui/
 ### Key Files Explained
 
 **`src/context/AuthContext.tsx`**
+
 - Manages authentication state globally
 - Provides login and auth check functions
 - Handles OAuth redirect logic
 
 **`src/lib/api.ts`**
+
 - Configures Axios with base URL and credentials
 - Implements request interceptor for CSRF tokens
 - Centralized API error handling
 
 **`src/components/ProtectedRoute.tsx`**
+
 - Higher-order component for route protection
 - Validates OAuth redirect_uri parameter
 - Redirects unauthorized access attempts
 
 **`src/pages/Login.tsx`**
+
 - Main login interface
 - Form validation and submission
 - Loading and error states
@@ -384,6 +394,7 @@ http://localhost:5173/login?redirect_uri=/oauth2/authorize?client_id=xxx&...
 #### Step 1: User Initiates Login
 
 User visits your client application:
+
 ```
 http://localhost:8000/login
 ```
@@ -391,6 +402,7 @@ http://localhost:8000/login
 #### Step 2: Client Redirects to Cerberus IAM
 
 Your Laravel app redirects to:
+
 ```
 https://api.cerberus-iam.com/oauth2/authorize?
   response_type=code&
@@ -405,6 +417,7 @@ https://api.cerberus-iam.com/oauth2/authorize?
 #### Step 3: Cerberus IAM Checks Authentication
 
 If user is not authenticated, Cerberus redirects to this app:
+
 ```
 http://localhost:5173/login?redirect_uri=/oauth2/authorize?...
 ```
@@ -416,6 +429,7 @@ User enters credentials in the login form
 #### Step 5: This App Authenticates User
 
 POSTs to Cerberus IAM API:
+
 ```javascript
 POST /api/auth/login
 {
@@ -427,6 +441,7 @@ POST /api/auth/login
 #### Step 6: Redirect Back to OAuth
 
 After successful authentication, redirects to:
+
 ```
 https://api.cerberus-iam.com/oauth2/authorize?...
 ```
@@ -434,6 +449,7 @@ https://api.cerberus-iam.com/oauth2/authorize?...
 #### Step 7: OAuth Flow Completes
 
 Cerberus redirects back to client with authorization code:
+
 ```
 http://localhost:8000/cerberus/callback?code=auth-code&state=...
 ```
@@ -458,6 +474,7 @@ Authenticates a user with email and password.
 **Content-Type**: `application/json`
 
 **Request Body**:
+
 ```json
 {
   "email": "user@example.com",
@@ -466,6 +483,7 @@ Authenticates a user with email and password.
 ```
 
 **Success Response (200 OK)**:
+
 ```json
 {
   "success": true,
@@ -479,6 +497,7 @@ Authenticates a user with email and password.
 ```
 
 **Error Response (401 Unauthorized)**:
+
 ```json
 {
   "success": false,
@@ -487,6 +506,7 @@ Authenticates a user with email and password.
 ```
 
 **Error Response (422 Validation Error)**:
+
 ```json
 {
   "success": false,
@@ -508,6 +528,7 @@ Checks if the current user is authenticated.
 **Content-Type**: `application/json`
 
 **Success Response (200 OK)**:
+
 ```json
 {
   "authenticated": true,
@@ -521,6 +542,7 @@ Checks if the current user is authenticated.
 ```
 
 **Unauthenticated Response (401 Unauthorized)**:
+
 ```json
 {
   "authenticated": false
@@ -537,6 +559,7 @@ Initializes CSRF protection for the session.
 **Response**: No body, sets XSRF-TOKEN cookie
 
 **Success Response (204 No Content)**:
+
 ```
 Headers:
   Set-Cookie: XSRF-TOKEN=...; Path=/; Secure; HttpOnly
@@ -652,6 +675,7 @@ curl -X OPTIONS http://api.cerberus-iam.com/api/auth/login \
 ```
 
 Look for these headers in the response:
+
 ```
 Access-Control-Allow-Origin: http://localhost:5173
 Access-Control-Allow-Credentials: true
@@ -702,6 +726,7 @@ axios.defaults.withCredentials = true;
 ### Security Best Practices
 
 ✅ **DO**:
+
 - Always use HTTPS in production
 - Rotate secrets regularly
 - Implement rate limiting on API
@@ -711,6 +736,7 @@ axios.defaults.withCredentials = true;
 - Monitor for security vulnerabilities
 
 ❌ **DON'T**:
+
 - Hardcode secrets or API keys
 - Disable CSRF protection
 - Allow weak passwords
@@ -742,6 +768,7 @@ npm run build
 This creates an optimized production build in the `dist/` directory.
 
 **Output**:
+
 ```
 dist/
 ├── index.html
@@ -754,6 +781,7 @@ dist/
 ### Build Optimization
 
 The build process includes:
+
 - **Tree Shaking**: Removes unused code
 - **Minification**: Compresses JavaScript and CSS
 - **Code Splitting**: Separates vendor and app code
@@ -775,13 +803,13 @@ Edit `vite.config.ts` to customize build settings:
 ```typescript
 export default defineConfig({
   build: {
-    outDir: 'dist',
+    outDir: "dist",
     sourcemap: true, // Enable source maps
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          ui: ['lucide-react', 'axios'],
+          vendor: ["react", "react-dom", "react-router-dom"],
+          ui: ["lucide-react", "axios"],
         },
       },
     },
@@ -796,17 +824,20 @@ export default defineConfig({
 ### Vercel (Recommended)
 
 1. **Install Vercel CLI**:
+
 ```bash
 npm i -g vercel
 ```
 
 2. **Login and Deploy**:
+
 ```bash
 vercel login
 vercel --prod
 ```
 
 3. **Set Environment Variables**:
+
 ```bash
 vercel env add VITE_API_URL production
 # Enter: https://api.cerberus-iam.com
@@ -819,11 +850,13 @@ vercel env add VITE_API_URL production
 ### Netlify
 
 1. **Install Netlify CLI**:
+
 ```bash
 npm i -g netlify-cli
 ```
 
 2. **Build and Deploy**:
+
 ```bash
 npm run build
 netlify deploy --prod --dir=dist
@@ -836,6 +869,7 @@ netlify deploy --prod --dir=dist
 ### Traditional Hosting (Apache/Nginx)
 
 1. **Build the Application**:
+
 ```bash
 npm run build
 ```
@@ -845,6 +879,7 @@ npm run build
 3. **Configure Web Server**:
 
 **Nginx**:
+
 ```nginx
 server {
     listen 80;
@@ -865,6 +900,7 @@ server {
 ```
 
 **Apache** (`.htaccess`):
+
 ```apache
 <IfModule mod_rewrite.c>
     RewriteEngine On
@@ -886,6 +922,7 @@ server {
 ### Docker Deployment
 
 **Dockerfile**:
+
 ```dockerfile
 FROM node:18-alpine AS builder
 WORKDIR /app
@@ -902,6 +939,7 @@ CMD ["nginx", "-g", "daemon off;"]
 ```
 
 **Build and Run**:
+
 ```bash
 docker build -t cerberus-auth-ui .
 docker run -p 8080:80 -e VITE_API_URL=https://api.cerberus-iam.com cerberus-auth-ui
@@ -920,6 +958,7 @@ docker run -p 8080:80 -e VITE_API_URL=https://api.cerberus-iam.com cerberus-auth
 **Solution**: This is expected behavior. The login page must be accessed through an OAuth flow with a `redirect_uri` parameter.
 
 **Test**:
+
 ```
 http://localhost:5173/login?redirect_uri=/oauth2/authorize
 ```
@@ -929,12 +968,14 @@ http://localhost:5173/login?redirect_uri=/oauth2/authorize
 #### Issue: CORS Errors in Browser Console
 
 **Symptoms**:
+
 ```
 Access to XMLHttpRequest at 'https://api.cerberus-iam.com/api/auth/login'
 from origin 'http://localhost:5173' has been blocked by CORS policy
 ```
 
 **Solution**:
+
 1. Check `config/cors.php` on API includes `http://localhost:5173`
 2. Ensure `supports_credentials` is `true`
 3. Verify API is running and accessible
@@ -944,11 +985,13 @@ from origin 'http://localhost:5173' has been blocked by CORS policy
 #### Issue: Login Fails with "Invalid Credentials"
 
 **Possible Causes**:
+
 1. Incorrect email/password
 2. API endpoint not implemented correctly
 3. Session not being created on API
 
 **Debug Steps**:
+
 ```bash
 # Test API directly
 curl -X POST https://api.cerberus-iam.com/api/auth/login \
@@ -963,6 +1006,7 @@ curl -X POST https://api.cerberus-iam.com/api/auth/login \
 **Cause**: API response doesn't match expected format.
 
 **Solution**: Ensure API returns:
+
 ```json
 {
   "success": true,
@@ -975,6 +1019,7 @@ curl -X POST https://api.cerberus-iam.com/api/auth/login \
 #### Issue: Build Fails with TypeScript Errors
 
 **Solution**:
+
 ```bash
 # Clear cache and reinstall
 rm -rf node_modules package-lock.json
@@ -992,18 +1037,18 @@ Enable debug logging:
 
 ```typescript
 // src/lib/api.ts
-api.interceptors.request.use(config => {
-  console.log('Request:', config.method?.toUpperCase(), config.url);
+api.interceptors.request.use((config) => {
+  console.log("Request:", config.method?.toUpperCase(), config.url);
   return config;
 });
 
 api.interceptors.response.use(
-  response => {
-    console.log('Response:', response.status, response.data);
+  (response) => {
+    console.log("Response:", response.status, response.data);
     return response;
   },
-  error => {
-    console.error('Error:', error.response?.status, error.response?.data);
+  (error) => {
+    console.error("Error:", error.response?.status, error.response?.data);
     return Promise.reject(error);
   }
 );
@@ -1016,6 +1061,7 @@ api.interceptors.response.use(
 ### Development Workflow
 
 1. **Create a Feature Branch**:
+
 ```bash
 git checkout -b feature/your-feature-name
 ```
@@ -1023,18 +1069,21 @@ git checkout -b feature/your-feature-name
 2. **Make Changes**: Follow the existing code style and patterns
 
 3. **Test Thoroughly**:
+
 ```bash
 npm run dev        # Manual testing
 npm run build      # Ensure build works
 ```
 
 4. **Commit Changes**:
+
 ```bash
 git add .
 git commit -m "feat: add your feature description"
 ```
 
 5. **Push and Create PR**:
+
 ```bash
 git push origin feature/your-feature-name
 ```
@@ -1060,6 +1109,7 @@ footer
 **Types**: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
 
 **Examples**:
+
 ```
 feat(login): add remember me checkbox
 fix(api): handle 500 errors gracefully
@@ -1120,7 +1170,7 @@ For questions, issues, or contributions:
 
 - **Documentation**: See `SETUP.md` for quick start guide
 - **Issues**: Create an issue in the repository
-- **Email**: support@cerberus-iam.com (if applicable)
+- **Email**: <support@cerberus-iam.com> (if applicable)
 
 ---
 
