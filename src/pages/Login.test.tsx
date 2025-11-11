@@ -41,12 +41,14 @@ describe('Login Component', () => {
   it('should render login form', () => {
     renderLogin();
 
-    expect(
-      screen.getByRole('heading', { name: /login to your account/i })
-    ).toBeInTheDocument();
+    // Check for the form inputs and button
     expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
+    // Check that the card description text is present
+    expect(
+      screen.getByText(/enter your email below to login to your account/i)
+    ).toBeInTheDocument();
   });
 
   it('should render Cerberus IAM branding', () => {
