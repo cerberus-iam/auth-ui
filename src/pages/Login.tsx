@@ -77,7 +77,7 @@ export default function Login() {
   }
 
   return (
-    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+    <div className="bg-muted flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
         <div className="mb-8 flex flex-col items-center">
           <Logo className="mb-2 size-12" color="#FCBE21" />
@@ -89,7 +89,7 @@ export default function Login() {
           </div>
         </div>
 
-        <Card>
+        <Card className="bg-white">
           <CardHeader>
             <CardTitle>Login</CardTitle>
             <CardDescription>

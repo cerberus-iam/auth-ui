@@ -47,7 +47,7 @@ export default function Unauthorized() {
   }, [location.state]);
 
   return (
-    <div className="bg-muted flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
         <div className="mb-8 flex flex-col items-center gap-3">
           <Logo className="h-12 w-12" color="#FCBE21" />
@@ -59,7 +59,7 @@ export default function Unauthorized() {
           </div>
         </div>
 
-        <Card>
+        <Card className="bg-white">
           <CardHeader className="space-y-3">
             <div className="mb-2 flex items-center justify-center">
               <div className="bg-destructive/10 flex h-12 w-12 items-center justify-center rounded-full">
