@@ -63,17 +63,21 @@ export default function Login() {
         {/* Left side - Animated Gradient */}
         <div className="relative hidden lg:block">
           <AnimatedGradient />
-          <div className="relative z-10 flex h-full flex-col items-center justify-center p-12 text-center">
-            <div className="bg-primary text-primary-foreground mb-8 flex h-16 w-16 items-center justify-center rounded-2xl shadow-2xl">
-              <ShieldCheck className="h-8 w-8" />
+          <div className="relative z-10 flex h-full flex-col p-8">
+            {/* Top-left branding */}
+            <div className="flex items-center gap-3">
+              <div className="bg-primary text-primary-foreground flex h-10 w-10 items-center justify-center rounded-lg shadow-lg">
+                <ShieldCheck className="h-5 w-5" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-lg font-semibold text-white">
+                  Cerberus IAM
+                </span>
+                <span className="text-sm text-slate-300">
+                  Secure authentication
+                </span>
+              </div>
             </div>
-            <h2 className="mb-4 text-4xl font-bold tracking-tight">
-              Cerberus IAM
-            </h2>
-            <p className="text-muted-foreground max-w-md text-lg">
-              Secure authentication and identity management for modern
-              applications
-            </p>
           </div>
         </div>
 
@@ -94,17 +98,21 @@ export default function Login() {
       {/* Left side - Animated Gradient */}
       <div className="relative hidden lg:block">
         <AnimatedGradient />
-        <div className="relative z-10 flex h-full flex-col items-center justify-center p-12 text-center">
-          <div className="bg-primary text-primary-foreground mb-8 flex h-16 w-16 items-center justify-center rounded-2xl shadow-2xl">
-            <ShieldCheck className="h-8 w-8" />
+        <div className="relative z-10 flex h-full flex-col p-8">
+          {/* Top-left branding */}
+          <div className="flex items-center gap-3">
+            <div className="bg-primary text-primary-foreground flex h-10 w-10 items-center justify-center rounded-lg shadow-lg">
+              <ShieldCheck className="h-5 w-5" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-lg font-semibold text-white">
+                Cerberus IAM
+              </span>
+              <span className="text-sm text-slate-300">
+                Secure authentication
+              </span>
+            </div>
           </div>
-          <h2 className="mb-4 text-4xl font-bold tracking-tight">
-            Cerberus IAM
-          </h2>
-          <p className="text-muted-foreground max-w-md text-lg">
-            Secure authentication and identity management for modern
-            applications
-          </p>
         </div>
       </div>
 
