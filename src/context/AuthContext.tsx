@@ -19,7 +19,7 @@ interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string, clientId?: string) => Promise<void>;
   checkAuth: () => Promise<void>;
 }
 
@@ -48,8 +48,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = useCallback(
-    async (email: string, password: string) => {
-      const { data } = await api.post('/v1/auth/login', { email, password });
+    async (email: string, password: string, clientId?: string) => {
+      // Build request payload with optional client_id
+      const payload: { email: string; password: string; client_id?: string } = {
+        email,
+        password,
+      };
+      if (clientId) {
+        payload.client_id = clientId;
+      }
+
+      const { data } = await api.post('/v1/auth/login', payload);
 
       if (!data?.user) {
         throw new Error(data?.message || 'Login failed');
@@ -66,6 +75,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (oauthRedirect) {
         localStorage.removeItem('oauth_redirect');
+        localStorage.removeItem('oauth_client_id');
         window.location.href = resolveAuthorizationRedirect(oauthRedirect);
         return;
       }

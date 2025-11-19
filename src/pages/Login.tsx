@@ -31,6 +31,17 @@ export default function Login() {
     // Store OAuth params in localStorage for after login
     if (redirectUri) {
       localStorage.setItem('oauth_redirect', redirectUri);
+
+      // Extract client_id from the redirect_uri for OAuth flows
+      try {
+        const redirectUrl = new URL(redirectUri);
+        const clientId = redirectUrl.searchParams.get('client_id');
+        if (clientId) {
+          localStorage.setItem('oauth_client_id', clientId);
+        }
+      } catch {
+        // Invalid URL, ignore
+      }
     }
 
     // If already authenticated and has OAuth redirect, go there immediately
@@ -50,7 +61,9 @@ export default function Login() {
     setIsSubmitting(true);
 
     try {
-      await login(email, password);
+      // Get client_id from localStorage if it exists (OAuth flow)
+      const clientId = localStorage.getItem('oauth_client_id');
+      await login(email, password, clientId || undefined);
       // Login function will handle redirect to OAuth endpoint
     } catch (err: unknown) {
       setError(
